@@ -13,7 +13,6 @@ async function main() {
   }
 
   const token = SessionManager.getToken();
-  console.log(token);
 
   console.log("\n");
   const amount = await getRewardsAmount(token);
