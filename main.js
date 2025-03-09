@@ -1,6 +1,7 @@
 const cron = require("node-cron");
 const sm = require("./SessionManager.js");
 
+console.log("Running ...\n");
 cron.schedule("*/1 * * * *", main);
 
 const SessionManager = new sm();
