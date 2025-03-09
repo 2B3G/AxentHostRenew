@@ -7,10 +7,7 @@ cron.schedule("*/1 * * * *", main);
 const SessionManager = new sm();
 
 async function main() {
-  if (SessionManager.getToken() == null) {
-    console.log("Making new session ...");
-    await login();
-  }
+  if (SessionManager.getToken() == null) await login();
 
   const token = SessionManager.getToken();
 
@@ -36,6 +33,12 @@ async function getRewardsAmount(authToken) {
       },
     }
   );
+
+  if (resp.status == 401) {
+    await login();
+    return await getRewardsAmount();
+  }
+
   const data = await resp.json();
 
   return data.capability;
@@ -55,6 +58,8 @@ async function getCfToken(url) {
 }
 
 async function login() {
+  console.log("Making new session ...");
+
   const resp = await makeRequest(
     "https://api.axenthost.com/v5/auth/login",
     {
